@@ -119,39 +119,3 @@ class XMLParser(object):
 
 # x = XML("input_xml/ozon_mvideo_mbt.xml")
 # xml_file_dir = x.save_to_dir()
-
-p = XMLParser("input_xml/mbt.xml")
-
-print(datetime.datetime.now().time())
-offers = p.ozon_offers_list()
-titles = p.get_all_keys()
-categories = p.get_all_categories()
-
-titles.sort(key = lambda x: str(offers[0:100]).count(x), reverse=True)
-print(titles)
-# Create Excel Out File
-wb = openpyxl.Workbook()
-
-ws = wb.create_sheet("offers")
-
-
-for key in titles:
-    ws.cell(1, titles.index(key)+2, key)
-
-row = 2
-for offer in offers:
-    ws.cell(row, 1, str(categories[int(offer["categoryId"])]))
-    col = 2
-    for key in titles:
-        try:
-            ws.cell(row, col, str(offer[key]))
-            col += 1
-        except:
-            col += 1
-    row += 1
-
-wb.save("mbt.xlsx")
-
-
-
-print(datetime.datetime.now().time())
